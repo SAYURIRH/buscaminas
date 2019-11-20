@@ -72,7 +72,7 @@ public class buscaminas {
 
                    random();
                    ponerNumeros();
-
+                   jugar();
 
                    seguirJuego++;
                }
@@ -90,7 +90,7 @@ public class buscaminas {
                        random();
 
                        ponerNumeros();
-
+                       jugar();
 
                        seguirJuego++;
                    }
@@ -107,6 +107,7 @@ public class buscaminas {
 
                        ponerNumeros();
 
+                       jugar();
 
                        seguirJuego++;
                    }
@@ -121,7 +122,7 @@ public class buscaminas {
 
                        random();
                        ponerNumeros();
-
+                       jugar();
 
                        seguirJuego++;
                    }
@@ -922,6 +923,285 @@ public class buscaminas {
         }
     }
 
-   
+    public static void tablaMostrar() //Este Método es para mostrar tabla
+    {
+
+        System.out.print("     ");
+        for(int a = 0; a < numLargo; a++ )
+        {
+            System.out.print(a+"   ");
+        }
+        System.out.println("");
+        System.out.print("   ");
+        for(int a = 0; a < numLargo; a++ )
+        {
+            System.out.print("____");
+        }
+
+        System.out.println("");
+        for (int i = 0; i < numLargo; i++)
+        {
+
+            System.out.print(i + "  ");
+
+            System.out.print("|");
+
+            for (int j = 0; j < numLargo; j++)
+            {
+                if (tabla[i][j] == null)
+                {
+                    System.out.print("   "+ "|");
+                }
+                else
+                {
+                    System.out.print(" "+tabla[i][j] + " "+"|");
+                }
+            }
+            System.out.print("");
+            System.out.println("");
+
+        }
+
+        System.out.print("  ");
+        for(int a = 0; a < numLargo; a++ )
+        {
+            System.out.print("____");
+        }
+        System.out.println("");
+        System.out.println("");
+    }
+
+    public static void tablaShowMostrar() //Este Método es para mostrar tabla
+    {
+
+        System.out.print("     ");
+        for(int a = 0; a < numLargo; a++ )
+        {
+            if (a == 10)
+            {
+            System.out.print(a+"  ");
+            }
+            else if (a < 10)
+            {
+                System.out.print(a+"   ");
+            }
+            else
+            {
+                System.out.print(a+"  ");
+            }
+
+        }
+
+        System.out.println("");
+        System.out.print("   ");
+
+        for(int a = 0; a < numLargo; a++ )
+        {
+            System.out.print("____");
+        }
+
+        System.out.println("");
+        for (int i = 0; i < numLargo; i++)
+        {
+            if (i < 10)
+            {
+            System.out.print(i + "  ");
+            }
+            else
+            {
+                System.out.print(i + " ");
+            }
+
+
+
+            System.out.print("|");
+
+            for (int j = 0; j < numLargo; j++)
+            {
+                if (tablaShow[i][j] == null)
+                {
+                    System.out.print(" S "+ "|");
+                }
+                else
+                {
+                    if (tabla[i][j] == null)
+                    {
+                        System.out.print(" "+" "+ " "+"|");
+                    }
+                    else
+                    {
+                        System.out.print(" "+tabla[i][j] + " "+"|");
+                    }
+
+                }
+            }
+            System.out.print("");
+            System.out.println("");
+
+        }
+
+        System.out.print("  ");
+        for(int a = 0; a < numLargo; a++ )
+        {
+            System.out.print("____");
+        }
+        System.out.println("");
+        System.out.println("");
+    }
+
+    public static void jugar()  //Aquí valida que el numero de minas
+    {
+        casillaSeleccionada = 0;
+        boolean busca = true;
+
+        instrucciones();
+        tablaShowMostrar();
+
+
+        while (busca == true)
+        {
+
+
+
+            if (buscaminas.jugar == 1)  //El jugador quiere descubrir una casilla
+            {
+
+                if(tablaShow[buscaminas.jugarRenglon][buscaminas.jugarColumna] != null)
+                {
+                    System.out.println("Esa casilla ya está descubierta, vuélvelo a intentar o elige otra opción");
+                }
+                else
+                {
+                    if(tabla [buscaminas.jugarRenglon][buscaminas.jugarColumna] == null)  //Si la casilla que quiere descubrir esta vacía
+                    {
+                        tablaShow[buscaminas.jugarRenglon][buscaminas.jugarColumna] = "v";
+                        tablaShowMostrar();
+                        System.out.println("Esta vacía, puedes seguir jugando");
+                        buscaminas.puntos ++;
+
+
+                        numCasDescu++;
+                        if(numCasDescu == (numLargo*numLargo)-(numMinas))  //Si ya descubrió todas las casillas sin 0
+                        {
+                            tablaMostrar();
+                            System.out.println("Ganaste!!! felicidades, descubriste todas las casillas sin mina");
+                            System.out.println("tu puntuación es: 100%");
+                            busca = false;
+                        }
+
+                    }
+
+
+                    else
+                    {
+
+
+                        casillaSeleccionada = tabla [buscaminas.jugarRenglon][buscaminas.jugarColumna];
+                        if(casillaSeleccionada == 0)
+                        {
+                            tablaMostrar();
+                            System.out.println("Perdiste, encontraste una mina");
+                            int totalpuntos = numLargo*numLargo;
+                            System.out.println("tu puntuación es: "+(puntos*100)/totalpuntos+"%");
+                            busca = false;
+                        }
+                        else
+                        {
+
+                            tablaShow [buscaminas.jugarRenglon][buscaminas.jugarColumna] = String.valueOf(buscaminas.casillaSeleccionada);
+                            tablaShowMostrar();
+                            buscaminas.puntos++;
+
+                            numCasDescu++;
+                            if(numCasDescu == (numLargo*numLargo)-(numMinas))
+                            {
+                                tablaMostrar();
+                                System.out.println("Ganaste!!! felicidades , descibriste todas las casillas sin mina");
+                                System.out.println("tu puntuación es: 100%");
+                                busca = false;
+                            }
+
+                        }
+                    }
+
+
+                }
+
+
+            }
+            else if(buscaminas.jugar == 2)  //El jugador quiere descubrir una mina
+            {
+
+
+                if(tablaShow[buscaminas.jugarRenglon][buscaminas.jugarColumna] != null)
+                {
+                    System.out.println("Esa casilla ya está descubierta, vuélvelo a intentar o elige otra opción");
+                }
+                else
+                {
+                    casillaSeleccionada = tabla [buscaminas.jugarRenglon][buscaminas.jugarColumna];
+                    if(casillaSeleccionada == 0)
+                    {
+
+                        tablaShow [buscaminas.jugarRenglon][buscaminas.jugarColumna] = String.valueOf(buscaminas.casillaSeleccionada);
+                        tablaShowMostrar();
+                        System.out.println("Sí hay una mina , muy bien");
+                        contMinas++;
+                        buscaminas.puntos ++;
+
+                        if (contMinas == numMinas)
+                        {
+                            tablaMostrar();
+                            System.out.println("Ganaste!!! felicidades ");
+                            System.out.println("tu puntuación es: 100%");
+                            busca = false;
+                        }
+
+                    }
+                    else
+                    {
+                        System.out.println("No hay mina");
+                        numOportunidades++;
+                        if (numOportunidades == 3)
+                        {
+                            tablaMostrar();
+                            System.out.println("Perdiste, Te acabaste todas tus oportunidades");
+
+                            int totalpuntos = numLargo*numLargo;
+                            System.out.println("tu puntuación es: "+(puntos*100)/totalpuntos+"%");
+
+                            busca = false;
+                        }
+                        else
+                        {
+                            int restan = 3 -  numOportunidades;
+                            System.out.println("Te quedan "+restan+" oportunidades");
+                        }
+
+                    }
+                }
+                }
+            else if(buscaminas.jugar == 3 )
+            {
+
+
+                if ( buscaminas.terminar == 1)
+                {
+                    busca = false;
+                    tablaMostrar();
+                    System.out.println("Lástima, buena suerte a la próxima");
+                }
+
+                else if ( buscaminas.terminar == 2)
+                {
+                    System.out.println("Bien, Sigue jugando");
+                }
+
+            }
+
+
+        }
+    }
+
 
 }
