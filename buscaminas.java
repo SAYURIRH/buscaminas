@@ -1,50 +1,57 @@
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.StringTokenizer;
-
 
 public class buscaminas {
-        private static Integer[][] tabla;
+
+    //variables globales
+
+    private static Integer[][] tabla;
     private static String[][] tablaShow;
 
-    private static int numLargo;  //que de cuanto por cuanto va a ser la tabla, numLargo X numLargo
-    private static int numMinas;  //Cuantas minas va a haber en el tablero
-    private static int contMinas;  //Cuantas minas lleva descubiertas
-    private static int fila;        //El numero de fila
-    private static int colm;        //El numero de columna
-    private static int seguirJuego = 0;   //input para diferencias cual menu se va a mostrar
-    private static int seguirjuegoSoN;  //Variable para seguir jeugo, sí o no
-    private static String numUsados = "";  //Numero usados para no repetir donde se pone 0
+    private static int contMinas;           //Cuantas minas lleva descubiertas
+    private static int fila;                //El número de fila, se usa cuando se generan los num Random
+    private static int colm;                //El número de columna, se usa cuando se generan los num Random
+    private static String numUsados = "";   //Número usados
+    private static int numOportunidades;    //Cuantas oportunidades lleva de descubrir una mina
+    private static int casillaSeleccionada; //Casilla que el jugador decidió descubrir
+    private static int numCasDescu;         //numero de casillas descubiertas
+    private static int puntos;              // Acumulador de puntos
+
+    private static int seguirJuego = 0;    //Se usa para saber cual menu se va a mostrar al principio
+
+    //inputs
+    private static int seguirjuegoSoN;      //Variable para seguir jeugo, sí o no
+    private static int inputNivelOPerso;     //Input de si elige un nivel o hacer tabla personalizada
+    private static int inputNivel;          //Input de cual nivel quiere el jugador
+    private static int numLargo;            //que de cuanto por cuanto va a ser la tabla, numLargo X numLargo
+    private static int numMinas;           //Cuantas minas va a haber en el tablero
     private static int jugar;              //Si quiere descubrir una casilla o descubrir una mina
     private static int jugarRenglon;       //Cual renglon selecciona el jugador
     private static int jugarColumna;       //Cual columna selecciona el jugador
-    private static int numOportunidades;   //Cuntas oportunidades lleva de descubrir una mina
-    private static int casillaSeleccionada;   //Casilla que el jugador decicio descubrir
-    private static int numCasDescu;         //numero de casillas descubiertas
-    private static int inputNivelOPerso;     //Input de si elig un nivel o hacer tabla personalizada
-    private static int inputNivel;          //Input de cual nivel quiere el jugador
     private static int terminar;            //Input de s se quire termianr partida o no
-    private static int puntos;             // Cuantos puntos lleva
 
 
+    //Aquí solamente se llama a un método
     public static void main(String args[])
     {
         principal();
     }
 
+    //Este es el método principal, donde se llama a la mayoría de los  otros métodos
     public static void principal()
     {
+
        while (true)
        {
 
-           //reiniciar todas las variables cuando se quiera jugar otra vez sin acabar el juego
+
            numLargo = 0;
            numMinas = 0;
            contMinas = 0;
            fila = 0;
            colm = 0;
-           seguirJuego = 0;
+           seguirjuegoSoN = 0;
            numUsados = "";
            jugar = 0;
            jugarRenglon = 0;
@@ -58,7 +65,9 @@ public class buscaminas {
            puntos = 0;
 
            valiSeguirJugando();
+
            buscaminas.seguirJuego++;
+
            if ( buscaminas.seguirjuegoSoN == 1)
            {
                valiElegirNivelOPersonalizacion();
@@ -69,6 +78,8 @@ public class buscaminas {
 
                    tabla = new Integer[buscaminas.numLargo ][buscaminas.numLargo ];
                    tablaShow = new String [buscaminas.numLargo ][buscaminas.numLargo ];
+
+
 
                    random();
                    ponerNumeros();
@@ -131,31 +142,88 @@ public class buscaminas {
            }
            else if (buscaminas.seguirjuegoSoN == 2)
            {
-               System.out.println("Gracias por jugar, adiós (>‿◠)✌ ");
+               System.out.println("           ------------------------------------");
+               System.out.println("           | Gracias por jugar!!              |");
+               System.out.println("           | Adiós  (>‿◠)✌                   |");
+               System.out.println("___________\\ /--------------------------------");
+               System.out.println("|  _    _  |");
+               System.out.println("| |_|  |_| |");
+               System.out.println("|   ____/  |");
+               System.out.println("|__________|");
                break;
            }
        }
     }
 
+    //En este método están las instrucciones
     public static void instrucciones ()
     {
+        if (buscaminas.seguirJuego > 1)
+        {
+            System.out.println("           ------------------------------------");
+            System.out.println("           | Decidiste jugar otra vez!!        |");
+            System.out.println("           | Aquí debajo están las             |");
+            System.out.println("           | intrucciones                      |");
+            System.out.println("           | Buena suerte :)                   |");
+            System.out.println("___________\\ /--------------------------------");
+            System.out.println("|  _    _  |");
+            System.out.println("| |_|  |_| |");
+            System.out.println("|   ____/  |");
+            System.out.println("|__________|");
+        }
+        else
+        {
+            System.out.println("           ------------------------------------");
+            System.out.println("           | Que bueno que decidiste jugar,   |");
+            System.out.println("           | aquí debajo estan las            |");
+            System.out.println("           | intrucciones.                    |");
+            System.out.println("           | Buena suerte :)                  |");
+            System.out.println("___________\\ /--------------------------------");
+            System.out.println("|  _    _  |");
+            System.out.println("| |_|  |_| |");
+            System.out.println("|   ____/  |");
+            System.out.println("|__________|");
+
+            try
+            {
+                Thread.sleep(3*1000);
+            }
+            catch (Exception e)
+            {
+                System.out.println(e);
+            }
+        }
+
         System.out.println("");
         System.out.println("Instrucciones:");
         System.out.println("1. Trata de descubrir todas las casillas sin mina");
         System.out.println("   o encuentra todas las minas");
         System.out.println("2. Las S en las casillas significa que estas no han sido descubiertas");
-        System.out.println("");
-        System.out.println("Buena Suerte");
+        System.out.println("3. Los 0 son las minas");
+        System.out.println("4. Solamente tienes 3 oportunidades para descubrir una ");
+        System.out.println("   mina");
         System.out.println("");
     }
 
+    //Validador de si el jugador quiere seguir jugando, si no se termina el programa
     public static void valiSeguirJugando()
     {
         boolean validInput = false;
         Scanner scan = new Scanner(System.in);
         if( buscaminas.seguirJuego == 0)
         {
-            System.out.println("¿Desea jugar?    1 = Sí     2 = No");
+            System.out.println("           ------------------------------------");
+            System.out.println("           | Hola, mi nombre es BM,           |");
+            System.out.println("           | ¿Desea jugar buscaminas?         |");
+            System.out.println("           | Escribe debajo                   |");
+            System.out.println("           | 1 = Sí                           |");
+            System.out.println("           | 2 = No                           |");
+            System.out.println("___________\\ /--------------------------------");
+            System.out.println("|  _    _  |");
+            System.out.println("| |_|  |_| |");
+            System.out.println("|   ____/  |");
+            System.out.println("|__________|");
+
         }
         else
         {
@@ -190,6 +258,7 @@ public class buscaminas {
         }
     }
 
+    //Donde se pregunta y valida cuando el jugador elige una opción del menú
     public static void valiElegirNivelOPersonalizacion()
     {
         boolean validInput = false;
@@ -227,6 +296,7 @@ public class buscaminas {
         }
     }
 
+    //Se valida y se pregunta cuando el jugador quiere elegir un nivel
     public static void valiElegirNivel()
     {
         boolean validInput = false;
@@ -265,7 +335,9 @@ public class buscaminas {
         }
     }
 
-    public static void pregunta()  //Aquí pregunta de cuanto x cuanto quiere el tablero y cuántas minas quiere
+    /*Aquí pregunta de cuanto x cuanto quiere el tablero y
+    cuántas minas quiere si el jugador escoge tablero personalizado */
+    public static void pregunta()
     {
         validadorTamanoTablero();
 
@@ -275,56 +347,56 @@ public class buscaminas {
 
     }
 
-    public static void random()  //Aquí pone ceros en lugares random
+    //En este método se asignas las minas a casillas random
+    public static void random()
     {
-        for( int i = 1; i<= numMinas; i++)
-        {
-            Random ran = new Random();
-            StringTokenizer st = new StringTokenizer(numUsados, " ");
-            boolean whileGrande = false;
-            boolean variable = false;
-            String juntos = "";
+        Random ran = new Random();
+        String juntos = "";
+        ArrayList<String> numUsados = new ArrayList<String>();
 
-            while ( whileGrande == false)
+        for( int i = 1; i <= numMinas; i++)
+        {
+            fila = ran.nextInt(numLargo);
+            colm = ran.nextInt(numLargo);
+
+            String f1 = String.valueOf(fila);
+            String c1 = String.valueOf(colm);
+
+            juntos = f1 + c1;
+
+            if( numUsados.isEmpty() )
+            {
+                numUsados.add(juntos);
+                tabla [fila][colm] = 0;
+            }
+            else
             {
 
-                fila = ran.nextInt(numLargo);
-                colm = ran.nextInt(numLargo);
-
-                String f1 = String.valueOf(fila);
-                String c1 = String.valueOf(colm);
-
-                juntos = f1 + c1;
-
-                st = new StringTokenizer(numUsados, " ");
-
-                variable = false;  //para cuando se rompa el while chico y encuentre que se repite
-
-                while( st.hasMoreTokens())   //Mientras st tenga mas tokens
+                for(int j = 0; j < numUsados.size(); j++)
                 {
-                    String a = st.nextToken();  //Asigno el token que sigue a una string a
 
-                    if(a.equals(juntos))  //ve si es el mismo numero cada vez que nuevo token
+                    while(numUsados.get(j).equals(juntos))
                     {
-                        variable = true;   //Si si es igual la variable = true para que no entre en el if de abajo y no se rompa rl whileGrande
-                        break;
+
+                        fila = ran.nextInt(numLargo);
+                        colm = ran.nextInt(numLargo);
+
+                        f1 = String.valueOf(fila);
+                        c1 = String.valueOf(colm);
+
+                        juntos = f1 + c1;
+                        j = 0;
                     }
                 }
 
-                if(variable == whileGrande )
-                {
-                    whileGrande = true; //para que ya no entre al whilegrande cuando no encuentre que el num se repite
-
-                }
+                numUsados.add(juntos);
+                tabla [fila][colm] = 0;
             }
-            numUsados = numUsados + juntos + " ";
-            tabla [fila][colm] = 0;
-            //Para que se agrege el nuevo num random a los num que ya use
-
         }
     }
 
-    public static void ponerNumeros()  //Este método pone los numeros al rededor de los ceros
+    //En este método de ponen los numero alrededor de las minas
+    public static void ponerNumeros()
     {
         for (int i = 0; i < numLargo; i++)
         {
@@ -334,7 +406,7 @@ public class buscaminas {
                 {
                     if (tabla[i][j] == 0)
                     {
-                        if (j == 0 && i == 0)   //si hay un cero en el [0][0]
+                        if (j == 0 && i == 0)
                         {
 
                             if (tabla[0 + 1][0] == null)
@@ -374,7 +446,7 @@ public class buscaminas {
                             }
                         }
 
-                        else if (i == numLargo - 1 && j == 0)   //Sí hay un nuemro en [numlargo-1][0]
+                        else if (i == numLargo - 1 && j == 0)
                         {
 
                             if (tabla [numLargo -2][0] == null)
@@ -414,7 +486,7 @@ public class buscaminas {
                             }
 
                         }
-                        else if (i == numLargo - 1 && j == numLargo - 1)  //si hay un número en [numlargo-1][numlargo-1]
+                        else if (i == numLargo - 1 && j == numLargo - 1)
                         {
                             if (tabla  [numLargo -2][numLargo -1] == null)
                             {
@@ -453,7 +525,7 @@ public class buscaminas {
                             }
                         }
 
-                        else if (i == 0 && j == numLargo - 1)  //Si hay un cero en [0][numlargo-1]
+                        else if (i == 0 && j == numLargo - 1)
                         {
                             if (tabla [0][numLargo-2] == null)
                             {
@@ -492,7 +564,7 @@ public class buscaminas {
                             }
                         }
 
-                        else if (j == 0 && i != 0 && i != numLargo-1) //Si hay un 0 en la primera columna
+                        else if (j == 0 && i != 0 && i != numLargo-1)
                         {
                             if (tabla  [i-1][0]   == null)
                             {
@@ -555,7 +627,7 @@ public class buscaminas {
                             }
 
                         }
-                        else if (i == 0 && j != 0 && j != numLargo - 1)  //si hay un 0 en el primer renglón
+                        else if (i == 0 && j != 0 && j != numLargo - 1)
                         {
                             if (tabla  [0][j-1] == null)
                             {
@@ -847,7 +919,8 @@ public class buscaminas {
         }
     }
 
-    public static void validadorTamanoTablero() //Este método valida que el taaño del tablero sea un numero
+    //Este método valida que el taaño del tablero sea un numero
+    public static void validadorTamanoTablero()
     {
         boolean validInput = false;
         Scanner scan = new Scanner(System.in);
@@ -881,7 +954,8 @@ public class buscaminas {
         }
     }
 
-    public static void validadorNumMinas()  //Aquí valida que el numero de minas
+    //En este método se valida que el numero de minas sea >= 1 y que sea menor a (numLargo)*(numLargo)
+    public static void validadorNumMinas()
     {
 
 
@@ -923,13 +997,25 @@ public class buscaminas {
         }
     }
 
-    public static void tablaMostrar() //Este Método es para mostrar tabla
+    //En este método se muestra el arreglo tabla, la que tiene todos las mians y los ceros
+    public static void tablaMostrar()
     {
 
         System.out.print("     ");
         for(int a = 0; a < numLargo; a++ )
         {
-            System.out.print(a+"   ");
+            if (a == 10)
+            {
+                System.out.print(a+"  ");
+            }
+            else if (a < 10)
+            {
+                System.out.print(a+"   ");
+            }
+            else
+            {
+                System.out.print(a+"  ");
+            }
         }
         System.out.println("");
         System.out.print("   ");
@@ -941,10 +1027,17 @@ public class buscaminas {
         System.out.println("");
         for (int i = 0; i < numLargo; i++)
         {
+            if(i<10)
+            {
+                System.out.print(i + "  ");
+                System.out.print("|");
+            }
+            else
+            {
+                System.out.print(i + " ");
+                System.out.print("|");
+            }
 
-            System.out.print(i + "  ");
-
-            System.out.print("|");
 
             for (int j = 0; j < numLargo; j++)
             {
@@ -971,7 +1064,16 @@ public class buscaminas {
         System.out.println("");
     }
 
-    public static void tablaShowMostrar() //Este Método es para mostrar tabla
+    /*como al principio ninguna posicion de tablaShow tiene nada,
+     * todas son null, y cuando escoja una casilla mediante los métodos de
+     * validadorJugarRenglon();    y      validadorJugarColumna();
+     * si esa casilla en el arreglo tabla tiene un numero != 0 se va a igualar a tablaShow en su pisicion respectiva
+     * mientras que si la posicion que escogio no tiene nada, se iguala a "v", esto sirve
+     * para que cuando se
+     * */
+
+    //En este método muestra el arreglo tablaShow, el que se le va a enseñar a el jugador
+    public static void tablaShowMostrar()
     {
 
         System.out.print("     ");
@@ -1012,9 +1114,15 @@ public class buscaminas {
                 System.out.print(i + " ");
             }
 
-
-
             System.out.print("|");
+
+
+            /*En este método se imprime el tablero cuando el jugador esta jugando buscaminas, se basa en dos for
+            * Y por ejemplo, en una vuelta primero se ve si tablaShow en esa casilla es == null, en la que quiere decir que el jugador no lo ha descubierto
+            * ya que todas las casillas siempre estan
+            * así que si no es null, se pregunta si el arreglo tabla en esa vuelta es null, ya que si es, quiere decir que ya se descubrió y que esta vacía porque es null
+            * Después si no esta vacía (es decir que no sea null),  */
+
 
             for (int j = 0; j < numLargo; j++)
             {
@@ -1049,9 +1157,10 @@ public class buscaminas {
         System.out.println("");
     }
 
-    public static void jugar()  //Aquí valida que el numero de minas
+    //Es donde el jugador hace todas las movidas, y donde estan las validaciones para ver si ganó
+    public static void jugar()
     {
-        casillaSeleccionada = 0;
+
         boolean busca = true;
 
         instrucciones();
@@ -1060,34 +1169,44 @@ public class buscaminas {
 
         while (busca == true)
         {
-
             validadorjugar();
 
-            if (buscaminas.jugar == 1)  //El jugador quiere descubrir una casilla
+            if (buscaminas.jugar == 1)
             {
                 validadorJugarRenglon();
                 validadorJugarColumna();
 
                 if(tablaShow[buscaminas.jugarRenglon][buscaminas.jugarColumna] != null)
+
                 {
                     System.out.println("Esa casilla ya está descubierta, vuélvelo a intentar o elige otra opción");
                 }
                 else
                 {
-                    if(tabla [buscaminas.jugarRenglon][buscaminas.jugarColumna] == null)  //Si la casilla que quiere descubrir esta vacía
+                    if(tabla [buscaminas.jugarRenglon][buscaminas.jugarColumna] == null)
                     {
                         tablaShow[buscaminas.jugarRenglon][buscaminas.jugarColumna] = "v";
                         tablaShowMostrar();
                         System.out.println("Esta vacía, puedes seguir jugando");
                         buscaminas.puntos ++;
 
-
                         numCasDescu++;
-                        if(numCasDescu == (numLargo*numLargo)-(numMinas))  //Si ya descubrió todas las casillas sin 0
+
+                        if(numCasDescu == (numLargo*numLargo)-(numMinas))
                         {
                             tablaMostrar();
-                            System.out.println("Ganaste!!! felicidades, descubriste todas las casillas sin mina");
-                            System.out.println("tu puntuación es: 100%");
+
+                            System.out.println("           ------------------------------------");
+                            System.out.println("           | Ganaste!!! Felicidades            |");
+                            System.out.println("           | Descubriste todas las casillas    |");
+                            System.out.println("           | sin mina                          |");
+                            System.out.println("___________\\ /--------------------------------");
+                            System.out.println("|  _    _  |");
+                            System.out.println("| |_|  |_| |");
+                            System.out.println("|  \\____/  |");
+                            System.out.println("|__________|");
+
+                            System.out.println("Tu puntuación es: 100%");
                             busca = false;
                         }
 
@@ -1099,12 +1218,22 @@ public class buscaminas {
 
 
                         casillaSeleccionada = tabla [buscaminas.jugarRenglon][buscaminas.jugarColumna];
+
                         if(casillaSeleccionada == 0)
                         {
                             tablaMostrar();
-                            System.out.println("Perdiste, encontraste una mina");
+
+                            System.out.println("           ------------------------------------");
+                            System.out.println("           | Perdiste, encontraste una mina    |");
+                            System.out.println("           | Suerte la próxima                 |");
+                            System.out.println("___________\\ /--------------------------------");
+                            System.out.println("|  _    _  |");
+                            System.out.println("| |_|  |_| |");
+                            System.out.println("|   ____   |");
+                            System.out.println("|__________|");
+
                             int totalpuntos = numLargo*numLargo;
-                            System.out.println("tu puntuación es: "+(puntos*100)/totalpuntos+"%");
+                            System.out.println("Tu puntuación es: "+(puntos*100)/totalpuntos+"%");
                             busca = false;
                         }
                         else
@@ -1118,8 +1247,18 @@ public class buscaminas {
                             if(numCasDescu == (numLargo*numLargo)-(numMinas))
                             {
                                 tablaMostrar();
-                                System.out.println("Ganaste!!! felicidades , descibriste todas las casillas sin mina");
-                                System.out.println("tu puntuación es: 100%");
+
+                                System.out.println("           ------------------------------------");
+                                System.out.println("           | Ganaste!!! Felicidades            |");
+                                System.out.println("           | Descubriste todas las casillas    |");
+                                System.out.println("           | sin mina                          |");
+                                System.out.println("___________\\ /--------------------------------");
+                                System.out.println("|  _    _  |");
+                                System.out.println("| |_|  |_| |");
+                                System.out.println("|  \\____/  |");
+                                System.out.println("|__________|");
+
+                                System.out.println("Tu puntuación es: 100%");
                                 busca = false;
                             }
 
@@ -1131,7 +1270,7 @@ public class buscaminas {
 
 
             }
-            else if(buscaminas.jugar == 2)  //El jugador quiere descubrir una mina
+            else if(buscaminas.jugar == 2)
             {
                 validadorJugarRenglon();
                 validadorJugarColumna();
@@ -1142,11 +1281,40 @@ public class buscaminas {
                 }
                 else
                 {
-                    casillaSeleccionada = tabla [buscaminas.jugarRenglon][buscaminas.jugarColumna];
-                    if(casillaSeleccionada == 0)
+
+                    if( tabla [buscaminas.jugarRenglon][buscaminas.jugarColumna] == null)
+                    {
+                        System.out.println("No hay mina");
+                        numOportunidades++;
+                        if (numOportunidades == 3)
+                        {
+                            tablaMostrar();
+
+                            System.out.println("           ------------------------------------");
+                            System.out.println("           | Perdiste, te acabaste todas tus   |");
+                            System.out.println("           | oportunidades, suerte la próxima  |");
+                            System.out.println("___________\\ /--------------------------------");
+                            System.out.println("|  _    _  |");
+                            System.out.println("| |_|  |_| |");
+                            System.out.println("|   ____   |");
+                            System.out.println("|__________|");
+
+                            int totalpuntos = numLargo*numLargo;
+                            System.out.println("Tu puntuación es: "+(puntos*100)/totalpuntos+"%");
+
+                            busca = false;
+                        }
+                        else
+                        {
+                            int restan = 3 -  numOportunidades;
+                            System.out.println("Te quedan "+restan+" oportunidades");
+                        }
+                    }
+                    else if(tabla [buscaminas.jugarRenglon][buscaminas.jugarColumna] == 0)
                     {
 
-                        tablaShow [buscaminas.jugarRenglon][buscaminas.jugarColumna] = String.valueOf(buscaminas.casillaSeleccionada);
+                        tablaShow [buscaminas.jugarRenglon][buscaminas.jugarColumna] = "0";
+
                         tablaShowMostrar();
                         System.out.println("Sí hay una mina , muy bien");
                         contMinas++;
@@ -1155,8 +1323,18 @@ public class buscaminas {
                         if (contMinas == numMinas)
                         {
                             tablaMostrar();
-                            System.out.println("Ganaste!!! felicidades ");
-                            System.out.println("tu puntuación es: 100%");
+
+                            System.out.println("           ------------------------------------");
+                            System.out.println("           | Ganaste!!! Felicidades            |");
+                            System.out.println("           | Descubriste todas las casillas    |");
+                            System.out.println("           | con mina                          |");
+                            System.out.println("___________\\ /--------------------------------");
+                            System.out.println("|  _    _  |");
+                            System.out.println("| |_|  |_| |");
+                            System.out.println("|  \\____/  |");
+                            System.out.println("|__________|");
+
+                            System.out.println("Tu puntuación es: 100%");
                             busca = false;
                         }
 
@@ -1168,10 +1346,18 @@ public class buscaminas {
                         if (numOportunidades == 3)
                         {
                             tablaMostrar();
-                            System.out.println("Perdiste, Te acabaste todas tus oportunidades");
+
+                            System.out.println("           ------------------------------------");
+                            System.out.println("           | Perdiste, te acabaste todas tus   |");
+                            System.out.println("           | oportunidades, suerte la próxima  |");
+                            System.out.println("___________\\ /--------------------------------");
+                            System.out.println("|  _    _  |");
+                            System.out.println("| |_|  |_| |");
+                            System.out.println("|   ____   |");
+                            System.out.println("|__________|");
 
                             int totalpuntos = numLargo*numLargo;
-                            System.out.println("tu puntuación es: "+(puntos*100)/totalpuntos+"%");
+                            System.out.println("Tu puntuación es: "+(puntos*100)/totalpuntos+"%");
 
                             busca = false;
                         }
@@ -1192,7 +1378,16 @@ public class buscaminas {
                 {
                     busca = false;
                     tablaMostrar();
-                    System.out.println("Lástima, buena suerte a la próxima");
+                    System.out.println("           ------------------------------------");
+                    System.out.println("           | Lástima                           |");
+                    System.out.println("           | Arriba se muestra la tabla        |");
+                    System.out.println("           | descubierta                       |");
+                    System.out.println("           | Suerte la próxima                 |");
+                    System.out.println("___________\\ /--------------------------------");
+                    System.out.println("|  _    _  |");
+                    System.out.println("| |_|  |_| |");
+                    System.out.println("|   ____   |");
+                    System.out.println("|__________|");
                 }
 
                 else if ( buscaminas.terminar == 2)
@@ -1206,11 +1401,40 @@ public class buscaminas {
         }
     }
 
-    public static void validadorjugar()  //Aquí valida que el numero de minas
+    //Se valida que el jugador hata escogido una opcion del menú cuando ya esta jugando
+    public static void validadorjugar()
     {
         boolean validInput = false;
         Scanner scan = new Scanner(System.in);
-        System.out.println(" 1 = Descubrir una casilla     2 = descubrir una mina      3 = Terminar Partida");
+        if(seguirJuego > 1)
+        {
+
+            System.out.println(" 1 = Descubrir una casilla     2 = descubrir una mina      3 = Terminar Partida");
+        }
+        else
+        {
+            try {
+                Thread.sleep(5*1000);
+            }
+            catch (Exception e) {
+                System.out.println(e);
+            }
+
+            System.out.println("           ------------------------------------");
+            System.out.println("           | Tienes 3 opciones:               |");
+            System.out.println("           | 1: Descubrir una casilla         |");
+            System.out.println("           | 2: Descubrir una mina            |");
+            System.out.println("           | 3: Terminar partida              |");
+            System.out.println("           | Escribe tu respuesta:            |");
+            System.out.println("___________\\ /--------------------------------");
+            System.out.println("|  _    _  |");
+            System.out.println("| |_|  |_| |");
+            System.out.println("|   ____/  |");
+            System.out.println("|__________|");
+
+            seguirJuego++;
+
+        }
 
         String input = scan.nextLine();
         while (validInput == false)
@@ -1240,11 +1464,12 @@ public class buscaminas {
         }
     }
 
-    public static void validadorJugarRenglon()  //Aquí valida que el numero de minas
+    //Se valida que el renglón que haya escogido sea numero y esté entre 0 y (numLargo-1)
+    public static void validadorJugarRenglon()
     {
         boolean validInput = false;
         Scanner scan = new Scanner(System.in);
-        System.out.println(" Es cribe el número de renglón ->");
+        System.out.println(" Escribe el número de renglón");
 
         String input = scan.nextLine();
         while (validInput == false)
@@ -1275,7 +1500,8 @@ public class buscaminas {
         }
     }
 
-    public static void validadorJugarColumna()  //Aquí valida que el numero de minas
+    //Se valida que la columna que haya escogido sea numero y esté entre 0 y (numLargo-1)
+    public static void validadorJugarColumna()
     {
         boolean validInput = false;
         Scanner scan = new Scanner(System.in);
@@ -1310,7 +1536,8 @@ public class buscaminas {
         }
     }
 
-    public static void validadorTermianrPartida()  //Aquí valida que el numero de minas
+    //Se valida que este seguro que quiere terminar la pertida
+    public static void validadorTermianrPartida()
     {
         boolean validInput = false;
         Scanner scan = new Scanner(System.in);
