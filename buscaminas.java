@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class buscaminas {
 
     //variables globales
-
     private static Integer[][] tabla;
     private static String[][] tablaShow;
 
@@ -14,7 +13,6 @@ public class buscaminas {
     private static int colm;                //El número de columna, se usa cuando se generan los num Random
     private static String numUsados = "";   //Número usados
     private static int numOportunidades;    //Cuantas oportunidades lleva de descubrir una mina
-    private static int casillaSeleccionada; //Casilla que el jugador decidió descubrir
     private static int numCasDescu;         //numero de casillas descubiertas
     private static int puntos;              // Acumulador de puntos
 
@@ -29,16 +27,17 @@ public class buscaminas {
     private static int jugar;              //Si quiere descubrir una casilla o descubrir una mina
     private static int jugarRenglon;       //Cual renglon selecciona el jugador
     private static int jugarColumna;       //Cual columna selecciona el jugador
-    private static int terminar;            //Input de s se quire termianr partida o no
+    private static int terminar;            //Input de si se quire termianr partida o no
 
 
-    //Aquí solamente se llama a un método
+    //Aquí solamente se llama a un método llamado principal
     public static void main(String args[])
     {
         principal();
     }
 
-    //Este es el método principal, donde se llama a la mayoría de los  otros métodos
+
+    //Este es el método principal, donde se llama a la mayoría de los otros métodos
     public static void principal()
     {
 
@@ -57,7 +56,6 @@ public class buscaminas {
            jugarRenglon = 0;
            jugarColumna = 0;
            numOportunidades = 0;
-           casillaSeleccionada = 0;
            numCasDescu = 0;
            inputNivelOPerso = 0;
            inputNivel = 0;
@@ -66,7 +64,7 @@ public class buscaminas {
 
            valiSeguirJugando();
 
-           buscaminas.seguirJuego++;
+
 
            if ( buscaminas.seguirjuegoSoN == 1)
            {
@@ -74,12 +72,11 @@ public class buscaminas {
 
                if(buscaminas.inputNivelOPerso == 1)
                {
+
                    pregunta();
 
                    tabla = new Integer[buscaminas.numLargo ][buscaminas.numLargo ];
                    tablaShow = new String [buscaminas.numLargo ][buscaminas.numLargo ];
-
-
 
                    random();
                    ponerNumeros();
@@ -155,7 +152,11 @@ public class buscaminas {
        }
     }
 
-    //En este método están las instrucciones
+
+    /*En este método están las instrucciones que se le dan al usuario
+    Si es la primera vez que se le muestra al usuario las instrucciones, dice "Que bueno que decidiste jugar",
+    después de la primera vez le va a decir "que bueno que decidiste jugar de nuevo"
+     */
     public static void instrucciones ()
     {
         if (buscaminas.seguirJuego > 1)
@@ -202,10 +203,16 @@ public class buscaminas {
         System.out.println("3. Los 0 son las minas");
         System.out.println("4. Solamente tienes 3 oportunidades para descubrir una ");
         System.out.println("   mina");
+        System.out.println("5. Si descubres una casilla vacía, se van a descubrir ");
+        System.out.println("5. las de alrededor ");
         System.out.println("");
     }
 
-    //Validador de si el jugador quiere seguir jugando, si no se termina el programa
+
+    /* Validador de si el jugador quiere seguir jugando, si no se termina el programa
+    Le pide al jugador un número y se verifica que sea un número y 1 o 2, si no se le vuelve a pedir otro número.
+    también si es la primera vez que juega, se le muestra el personaje, cuando vuelva a jugar ya no se va a mostrar al personaje
+     */
     public static void valiSeguirJugando()
     {
         boolean validInput = false;
@@ -258,7 +265,10 @@ public class buscaminas {
         }
     }
 
-    //Donde se pregunta y valida cuando el jugador elige una opción del menú
+
+    /*Donde se pregunta al usuario si quiere un 1 = juego personalizado o quiere 2 = escoger un nivel
+    se valida que el número que haya entrado sea 1 o 2 y que sea número
+     */
     public static void valiElegirNivelOPersonalizacion()
     {
         boolean validInput = false;
@@ -296,7 +306,8 @@ public class buscaminas {
         }
     }
 
-    //Se valida y se pregunta cuando el jugador quiere elegir un nivel
+    /*Se pregunta al jugador que nivel quiere jugar, 1 = principiante, 2 = intermedio y 3 = Experto
+    Se valida que el número que entre sea número y sea 1, 2 o 3 */
     public static void valiElegirNivel()
     {
         boolean validInput = false;
@@ -335,7 +346,7 @@ public class buscaminas {
         }
     }
 
-    /*Aquí pregunta de cuanto x cuanto quiere el tablero y
+    /*Se pregunta de cuanto x cuanto quiere el tablero y
     cuántas minas quiere si el jugador escoge tablero personalizado */
     public static void pregunta()
     {
@@ -347,7 +358,11 @@ public class buscaminas {
 
     }
 
-    //En este método se asignas las minas a casillas random
+    /*Se asigna las minas a casillas random,
+    Se crea un arrayList donde se van guardando los que ya se usaron,
+    después se crean dos números random que se juntan en una string, se verifica que no se haya repetido
+    en el arrayList y si se repite se generan otro par de números, si no se repiten con ninguno de los del ArrayList
+    Se añade ese string al ArrayList */
     public static void random()
     {
         Random ran = new Random();
@@ -395,7 +410,7 @@ public class buscaminas {
         }
     }
 
-    //En este método de ponen los numero alrededor de las minas
+    //En este método se ponen los numero alrededor de las minas
     public static void ponerNumeros()
     {
         for (int i = 0; i < numLargo; i++)
@@ -919,12 +934,37 @@ public class buscaminas {
         }
     }
 
-    //Este método valida que el taaño del tablero sea un numero
+    //Este método valida que el tamaño del tablero que el jugador escribió sea un número y sea mayor a 1
     public static void validadorTamanoTablero()
     {
         boolean validInput = false;
         Scanner scan = new Scanner(System.in);
-        System.out.println("¿De cuánto por cuánto desea el tablero?  Escriba el número");
+        if( buscaminas.seguirJuego == 0)
+        {
+            System.out.println("");
+            System.out.println("           ------------------------------------");
+            System.out.println("           | ¿De cuánto por cuánto desea el    |");
+            System.out.println("           |tablero?  Escriba el número        |");
+            System.out.println("           | Abajo hay un ejemplo de un        |");
+            System.out.println("           | tablero de 5 x 5.                 |");
+            System.out.println("           |    0   1   2   3   4              |");
+            System.out.println("           |   ____________________            |");
+            System.out.println("           | 0.| S | S | S | S | S |           |");
+            System.out.println("           | 1.| S | S | S | S | S |           |");
+            System.out.println("           | 2.| S | S | S | S | S |           |");
+            System.out.println("           | 3.| S | S | S | S | S |           |");
+            System.out.println("           | 4.| S | S | S | S | S |           |");
+            System.out.println("           |   ____________________            |");
+            System.out.println("___________\\ /--------------------------------");
+            System.out.println("|  _    _  |");
+            System.out.println("| |_|  |_| |");
+            System.out.println("|  \\____/  |");
+            System.out.println("|__________|");
+        }
+        else
+        {
+            System.out.println("¿De cuánto por cuánto desea el tablero?");
+        }
         String input = scan.nextLine();
         while (validInput == false)
         {
@@ -954,7 +994,7 @@ public class buscaminas {
         }
     }
 
-    //En este método se valida que el numero de minas sea >= 1 y que sea menor a (numLargo)*(numLargo)
+    //En este método se valida que el número de minas sea >= 1 y que sea menor a (numLargo)*(numLargo)
     public static void validadorNumMinas()
     {
 
@@ -997,7 +1037,8 @@ public class buscaminas {
         }
     }
 
-    //En este método se muestra el arreglo tabla, la que tiene todos las mians y los ceros
+    /*En este método se muestra el arreglo tabla, la que tiene todos las minas y los ceros,
+    usualmente se muestra cuando el jugador pierde o gana */
     public static void tablaMostrar()
     {
 
@@ -1055,7 +1096,7 @@ public class buscaminas {
 
         }
 
-        System.out.print("  ");
+        System.out.print("   ");
         for(int a = 0; a < numLargo; a++ )
         {
             System.out.print("____");
@@ -1064,13 +1105,6 @@ public class buscaminas {
         System.out.println("");
     }
 
-    /*como al principio ninguna posicion de tablaShow tiene nada,
-     * todas son null, y cuando escoja una casilla mediante los métodos de
-     * validadorJugarRenglon();    y      validadorJugarColumna();
-     * si esa casilla en el arreglo tabla tiene un numero != 0 se va a igualar a tablaShow en su pisicion respectiva
-     * mientras que si la posicion que escogio no tiene nada, se iguala a "v", esto sirve
-     * para que cuando se
-     * */
 
     //En este método muestra el arreglo tablaShow, el que se le va a enseñar a el jugador
     public static void tablaShowMostrar()
@@ -1116,14 +1150,6 @@ public class buscaminas {
 
             System.out.print("|");
 
-
-            /*En este método se imprime el tablero cuando el jugador esta jugando buscaminas, se basa en dos for
-            * Y por ejemplo, en una vuelta primero se ve si tablaShow en esa casilla es == null, en la que quiere decir que el jugador no lo ha descubierto
-            * ya que todas las casillas siempre estan
-            * así que si no es null, se pregunta si el arreglo tabla en esa vuelta es null, ya que si es, quiere decir que ya se descubrió y que esta vacía porque es null
-            * Después si no esta vacía (es decir que no sea null),  */
-
-
             for (int j = 0; j < numLargo; j++)
             {
                 if (tablaShow[i][j] == null)
@@ -1148,7 +1174,7 @@ public class buscaminas {
 
         }
 
-        System.out.print("  ");
+        System.out.print("   ");
         for(int a = 0; a < numLargo; a++ )
         {
             System.out.print("____");
@@ -1185,6 +1211,7 @@ public class buscaminas {
                 {
                     if(tabla [buscaminas.jugarRenglon][buscaminas.jugarColumna] == null)
                     {
+                        descubridor();
                         tablaShow[buscaminas.jugarRenglon][buscaminas.jugarColumna] = "v";
                         tablaShowMostrar();
                         System.out.println("Esta vacía, puedes seguir jugando");
@@ -1215,11 +1242,7 @@ public class buscaminas {
 
                     else
                     {
-
-
-                        casillaSeleccionada = tabla [buscaminas.jugarRenglon][buscaminas.jugarColumna];
-
-                        if(casillaSeleccionada == 0)
+                        if(tabla [buscaminas.jugarRenglon][buscaminas.jugarColumna] == 0)
                         {
                             tablaMostrar();
 
@@ -1239,7 +1262,7 @@ public class buscaminas {
                         else
                         {
 
-                            tablaShow [buscaminas.jugarRenglon][buscaminas.jugarColumna] = String.valueOf(buscaminas.casillaSeleccionada);
+                            tablaShow [buscaminas.jugarRenglon][buscaminas.jugarColumna] = "v";
                             tablaShowMostrar();
                             buscaminas.puntos++;
 
@@ -1313,7 +1336,7 @@ public class buscaminas {
                     else if(tabla [buscaminas.jugarRenglon][buscaminas.jugarColumna] == 0)
                     {
 
-                        tablaShow [buscaminas.jugarRenglon][buscaminas.jugarColumna] = "0";
+                        tablaShow [buscaminas.jugarRenglon][buscaminas.jugarColumna] = "v";
 
                         tablaShowMostrar();
                         System.out.println("Sí hay una mina , muy bien");
@@ -1406,19 +1429,13 @@ public class buscaminas {
     {
         boolean validInput = false;
         Scanner scan = new Scanner(System.in);
-        if(seguirJuego > 1)
+        if(seguirJuego >= 1)
         {
 
             System.out.println(" 1 = Descubrir una casilla     2 = descubrir una mina      3 = Terminar Partida");
         }
         else
         {
-            try {
-                Thread.sleep(5*1000);
-            }
-            catch (Exception e) {
-                System.out.println(e);
-            }
 
             System.out.println("           ------------------------------------");
             System.out.println("           | Tienes 3 opciones:               |");
@@ -1536,7 +1553,7 @@ public class buscaminas {
         }
     }
 
-    //Se valida que este seguro que quiere terminar la pertida
+    //Se valida que este seguro que quiere terminar la partida
     public static void validadorTermianrPartida()
     {
         boolean validInput = false;
@@ -1571,6 +1588,414 @@ public class buscaminas {
                 input = scan.nextLine();
             }
         }
+    }
+
+    /*
+    Cuando se descubre una casilla vacía, sus casillas alrededor se descubren, solamente
+    si no se han descubierto y son diferentes a 0 o igual a null en el arreglo tabla
+     */
+    public static void descubridor()
+    {
+        if (jugarRenglon == 0 && jugarColumna == 0)
+        {
+
+
+            if (tablaShow[0 + 1][0] == null)
+            {
+                if(tabla[0 + 1][0] == null ||tabla[0 + 1][0] != 0)
+                {
+                    tablaShow[0 + 1][0] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow[0 + 1][0 + 1] == null)
+            {
+                if (tabla[0 + 1][0 + 1] == null || tabla[0 + 1][0 + 1] != 0)
+                {
+
+                    tablaShow[0 + 1][0 + 1] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if (tablaShow[0][0 + 1] == null)
+            {
+                if (tabla[0][0 + 1] == null || tabla[0][0 + 1] != 0)
+                {
+                    tablaShow[0][0 + 1] = "v";
+                    numCasDescu++;
+                }
+            }
+
+        }
+
+        else if (jugarRenglon == numLargo - 1 && jugarColumna== 0)
+        {
+
+            if(tablaShow[numLargo -2][0] == null)
+            {
+                if (tabla [numLargo -2][0] == null || tabla[numLargo -2][0] != 0)
+                {
+                    tablaShow [numLargo -2][0] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow [numLargo -2][0+1] == null)
+            {
+                if (tabla [numLargo -2][0+1] == null || tabla[numLargo -2][0+1] != 0)
+                {
+                    tablaShow [numLargo -2][0+1] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow [numLargo -1][0+1] == null)
+            {
+                if (tabla [numLargo -1][0+1] == null || tabla [numLargo -1][0+1] != 0)
+                {
+                    tablaShow [numLargo -1][0+1] = "v";
+                    numCasDescu++;
+                }
+            }
+        }
+        else if (jugarRenglon == numLargo - 1 && jugarColumna == numLargo - 1)
+        {
+
+            if (tablaShow[numLargo - 2][numLargo - 1] == null)
+            {
+                if (tabla[numLargo - 2][numLargo - 1] == null || tabla[numLargo - 2][numLargo - 1] != 0)
+                {
+                    tablaShow[numLargo - 2][numLargo - 1] = "v";
+                    numCasDescu++;
+                }
+            }
+
+
+            if (tablaShow[numLargo - 2][numLargo - 2] == null)
+            {
+                if (tabla[numLargo - 2][numLargo - 2] == null || tabla[numLargo - 2][numLargo - 2] != 0)
+                {
+                    tablaShow[numLargo - 2][numLargo - 2] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if (tablaShow[numLargo - 1][numLargo - 2] == null)
+            {
+                if (tabla[numLargo - 1][numLargo - 2] == null || tabla[numLargo - 1][numLargo - 2] != 0)
+                {
+                    tablaShow[numLargo - 1][numLargo - 2] = "v";
+                    numCasDescu++;
+                }
+            }
+        }
+
+        else if (jugarRenglon == 0 && jugarColumna == numLargo - 1)
+        {
+
+            if(tablaShow [0][numLargo-2] == null)
+            {
+                if (tabla[0][numLargo - 2] == null ||tabla[0][numLargo - 2] != 0)
+                {
+                    tablaShow[0][numLargo - 2] = "v";
+                    numCasDescu++;
+                }
+            }
+
+
+            if(tablaShow [0+1][numLargo-2] == null)
+            {
+                if (tabla[0 + 1][numLargo - 2] == null || tabla[0 + 1][numLargo - 2] != 0)
+                {
+                    tablaShow[0 + 1][numLargo - 2] = "v";
+                    numCasDescu++;
+                }
+            }
+
+
+            if(tablaShow [0+1][numLargo-1]  == null) {
+                if (tabla[0 + 1][numLargo - 1] == null || tabla[0 + 1][numLargo - 1] != 0) {
+                    tablaShow[0 + 1][numLargo - 1] = "v";
+                    numCasDescu++;
+                }
+            }
+        }
+
+        else if (jugarColumna == 0 && jugarRenglon != 0 && jugarRenglon != numLargo-1)
+        {
+
+            if(tablaShow [jugarRenglon-1][0]  == null)
+            {
+                if (tabla[jugarRenglon - 1][0] == null || tabla[jugarRenglon - 1][0] != 0)
+                {
+                    tablaShow[jugarRenglon - 1][0] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow [jugarRenglon-1][0+1]  == null)
+            {
+                if (tabla[jugarRenglon - 1][0 + 1] == null || tabla[jugarRenglon - 1][0 + 1] != 0)
+                {
+                    tablaShow[jugarRenglon - 1][0 + 1] = "v";
+                    numCasDescu++;
+                }
+            }
+
+
+            if(tablaShow [jugarRenglon][0+1]   == null)
+            {
+                if (tabla[jugarRenglon][0 + 1] == null ||tabla[jugarRenglon][0 + 1] != 0)
+                {
+                    tablaShow[jugarRenglon][0 + 1] = "v";
+                    numCasDescu++;
+                }
+            }
+
+
+            if(tablaShow [jugarRenglon+1][0+1]   == null)
+            {
+                if (tabla[jugarRenglon + 1][0 + 1] == null || tabla[jugarRenglon + 1][0 + 1] != 0)
+                {
+                    tablaShow[jugarRenglon + 1][0 + 1] = "v";
+                    numCasDescu++;
+                }
+            }
+
+
+            if(tablaShow [jugarRenglon+1][0]   == null)
+            {
+                if (tabla[jugarRenglon + 1][0] == null || tabla[jugarRenglon + 1][0] != 0)
+                {
+                    tablaShow[jugarRenglon + 1][0] = "v";
+                    numCasDescu++;
+                }
+            }
+
+        }
+        else if (jugarRenglon == 0 && jugarColumna != 0 && jugarColumna != numLargo - 1)
+        {
+
+            if(tablaShow [jugarRenglon+1][0]   == null)
+            {
+                if (tabla[0][jugarColumna - 1] == null || tabla[0][jugarColumna - 1] != 0)
+                {
+                    tablaShow[0][jugarColumna - 1] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow [0+1][jugarColumna-1]   == null) {
+
+                if (tabla[0 + 1][jugarColumna - 1] == null || tabla[0 + 1][jugarColumna - 1] != 0) {
+                    tablaShow[0 + 1][jugarColumna - 1] = "v";
+                    numCasDescu++;
+                }
+            }
+
+
+            if(tablaShow [0+1][jugarColumna]   == null)
+            {
+                if (tabla[0 + 1][jugarColumna] == null || tabla[0 + 1][jugarColumna] != 0)
+                {
+                    tablaShow[0 + 1][jugarColumna] = "v";
+                    numCasDescu++;
+                }
+            }
+
+
+            if(tablaShow [0+1][jugarColumna+1]   == null)
+            {
+                if (tabla[0 + 1][jugarColumna + 1] == null || tabla[0 + 1][jugarColumna + 1] != 0)
+                {
+                    tablaShow[0 + 1][jugarColumna + 1] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow [0][jugarColumna+1] == null)
+            {
+                if (tabla[0][jugarColumna + 1] == null || tabla[0][jugarColumna + 1] != 0)
+                {
+                    tablaShow[0][jugarColumna + 1] = "v";
+                    numCasDescu++;
+                }
+            }
+        }
+        else if (jugarColumna == numLargo - 1 && jugarRenglon != 0 && jugarRenglon != numLargo - 1)
+        {
+            if(tablaShow [jugarRenglon-1][numLargo-1] == null)
+            {
+                if (tabla[jugarRenglon - 1][numLargo - 1] == null || tabla[jugarRenglon - 1][numLargo - 1] != 0)
+                {
+                    tablaShow[jugarRenglon - 1][numLargo - 1] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow [jugarRenglon-1][numLargo-2] == null)
+            {
+                if (tabla[jugarRenglon - 1][numLargo - 2] == null || tabla[jugarRenglon - 1][numLargo - 2] != 0)
+                {
+                    tablaShow[jugarRenglon - 1][numLargo - 2] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow [jugarRenglon][numLargo-2] == null)
+            {
+                if (tabla[jugarRenglon][numLargo - 2] == null || tabla[jugarRenglon][numLargo - 2] != 0)
+                {
+                    tablaShow[jugarRenglon][numLargo - 2] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow [jugarRenglon+1][numLargo-2] == null)
+            {
+                if (tabla[jugarRenglon + 1][numLargo - 2] == null || tabla[jugarRenglon + 1][numLargo - 2] != 0)
+                {
+                    tablaShow[jugarRenglon + 1][numLargo - 2] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow [jugarRenglon+1][numLargo-1] == null)
+            {
+                if (tabla[jugarRenglon + 1][numLargo - 1] == null || tabla[jugarRenglon + 1][numLargo - 1] != 0)
+                {
+                    tablaShow[jugarRenglon + 1][numLargo - 1] = "v";
+                    numCasDescu++;
+                }
+            }
+        }
+
+        else if (jugarRenglon == numLargo - 1 && jugarColumna != 0 && jugarColumna != numLargo - 1)
+        {
+
+            if(tablaShow [numLargo-1][jugarColumna-1] == null)
+            {
+                if (tabla[numLargo - 1][jugarColumna - 1] == null || tabla[numLargo - 1][jugarColumna - 1] != 0)
+                {
+                    tablaShow[numLargo - 1][jugarColumna - 1] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow [numLargo-2][jugarColumna-1] == null)
+            {
+                if (tabla[numLargo - 2][jugarColumna - 1] == null || tabla[numLargo - 2][jugarColumna - 1] != 0)
+                {
+                    tablaShow[numLargo - 2][jugarColumna - 1] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow [numLargo-2][jugarColumna] == null)
+            {
+                if (tabla[numLargo - 2][jugarColumna] == null || tabla[numLargo - 2][jugarColumna] != 0)
+                {
+                    tablaShow[numLargo - 2][jugarColumna] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow [numLargo-2][jugarColumna+1] == null)
+            {
+                if (tabla[numLargo - 2][jugarColumna + 1] == null || tabla[numLargo - 2][jugarColumna + 1] != 0)
+                {
+                    tablaShow[numLargo - 2][jugarColumna + 1] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow [numLargo-1][jugarColumna+1] == null)
+            {
+                if (tabla[numLargo - 1][jugarColumna + 1] == null || tabla[numLargo - 1][jugarColumna + 1] != 0)
+                {
+                    tablaShow[numLargo - 1][jugarColumna + 1] = "v";
+                    numCasDescu++;
+                }
+            }
+        }
+        else
+        {
+            if(tablaShow [jugarRenglon-1][jugarColumna-1] == null)
+            {
+                if (tabla[jugarRenglon - 1][jugarColumna - 1] == null || tabla[jugarRenglon - 1][jugarColumna - 1] != 0)
+                {
+                    tablaShow[jugarRenglon - 1][jugarColumna - 1] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow [jugarRenglon][jugarColumna-1] == null)
+            {
+                if (tabla[jugarRenglon][jugarColumna - 1] == null || tabla[jugarRenglon][jugarColumna - 1] != 0)
+                {
+                    tablaShow[jugarRenglon][jugarColumna - 1] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow [jugarRenglon+1][jugarColumna-1] == null)
+            {
+                if (tabla[jugarRenglon + 1][jugarColumna - 1] == null || tabla[jugarRenglon + 1][jugarColumna - 1] != 0)
+                {
+                    tablaShow[jugarRenglon + 1][jugarColumna - 1] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow [jugarRenglon+1][jugarColumna] == null)
+            {
+                if (tabla[jugarRenglon + 1][jugarColumna] == null || tabla[jugarRenglon + 1][jugarColumna] != 0)
+                {
+                    tablaShow[jugarRenglon + 1][jugarColumna] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow [jugarRenglon+1][jugarColumna+1] == null)
+            {
+                if (tabla[jugarRenglon + 1][jugarColumna + 1] == null || tabla[jugarRenglon + 1][jugarColumna + 1] != 0)
+                {
+                    tablaShow[jugarRenglon + 1][jugarColumna + 1] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow [jugarRenglon][jugarColumna+1] == null)
+            {
+                if (tabla[jugarRenglon][jugarColumna + 1] == null || tabla[jugarRenglon][jugarColumna + 1] != 0)
+                {
+                    tablaShow[jugarRenglon][jugarColumna + 1] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow [jugarRenglon-1][jugarColumna+1] == null)
+            {
+                if (tabla[jugarRenglon - 1][jugarColumna + 1] == null || tabla[jugarRenglon - 1][jugarColumna + 1] != 0)
+                {
+                    tablaShow[jugarRenglon - 1][jugarColumna + 1] = "v";
+                    numCasDescu++;
+                }
+            }
+
+            if(tablaShow [jugarRenglon-1][jugarColumna] == null)
+            {
+                if (tabla[jugarRenglon - 1][jugarColumna] == null || tabla[jugarRenglon - 1][jugarColumna] != 0)
+                {
+                    tablaShow[jugarRenglon - 1][jugarColumna] = "v";
+                    numCasDescu++;
+                }
+            }
+        }
+
+
     }
 
 }
